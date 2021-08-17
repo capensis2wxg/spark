@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9b10eb49-bffb-4da8-82db-fd86dafb1031" name="windows" url="http://localhost:20">
+        <fileTransfer mountedRoot="E:\" accessType="MOUNT" port="0" />
+      </webServer>
+      <webServer id="28c1a95f-69f1-461d-ad10-43b149c7952c" name="hadoop104" url="http://localhost">
+        <fileTransfer accessType="SFTP" host="hadoop102" port="22" sshConfigId="19aac56c-f7e2-431a-8ee7-eced1d161358" sshConfig="wxg@hadoop102:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="a6dd7de0-b43b-44d8-bfa5-a46eb2b9dcac" name="hadoop102" url="http://hadoop102:20">
+        <fileTransfer accessType="SFTP" host="hadoop102" port="22" sshConfigId="19aac56c-f7e2-431a-8ee7-eced1d161358" sshConfig="wxg@hadoop102:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+    <groups>
+      <group>
+        <name>hadoop</name>
+        <servers>
+          <name value="hadoop104" />
+          <name value="hadoop102" />
+        </servers>
+      </group>
+    </groups>
+  </component>
+</project>
