@@ -14,8 +14,7 @@ object Spark05_SparkSql_Udaf3 {
     //	TODO 创建SparkSql的运行环境
     val sparkConf: SparkConf =
       new SparkConf().setMaster("local[*]").setAppName("hotCategory")
-    val sparkSql: SparkSession =
-      SparkSession.builder().config(sparkConf).getOrCreate()
+    val sparkSql: SparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
     //	读取数据
     val dataFrame: DataFrame = sparkSql.read
       .option("timestampFormat", "yyyy/MM/dd HH:mm:ss ZZ")
@@ -34,13 +33,16 @@ object Spark05_SparkSql_Udaf3 {
 
   /**
     * 自定义聚合函数类：计算年龄的平均值
+    * <p>
     * 1、继承org.apache.spark.sql.expressions.Aggregator#Aggregator()
+    * <p>
     * 2、重写方法
     */
   case class User(username: String, age: Long)
   case class Buffer(var total: Long, var count: Long)
   class AvgUdf extends Aggregator[User, Buffer, Long] {
     import org.apache.spark.sql.{Encoder, Encoders}
+    // 初始化缓冲区
     override def zero: Buffer = { Buffer(0L, 0L) }
     //	根据输入的数据更新缓冲区的数据
     override def reduce(buffer: Buffer, in: User): Buffer = {
@@ -56,7 +58,7 @@ object Spark05_SparkSql_Udaf3 {
     }
     //  计算结果
     override def finish(buffer: Buffer): Long = buffer.total / buffer.count
-    //  编码区的缓冲操作
+    //  缓冲区的编码操作
     override def bufferEncoder: Encoder[Buffer] = Encoders.product
     override def outputEncoder: Encoder[Long] = Encoders.scalaLong
   }

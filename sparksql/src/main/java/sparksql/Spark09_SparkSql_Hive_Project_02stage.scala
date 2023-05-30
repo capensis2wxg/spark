@@ -10,41 +10,37 @@ import scala.collection.mutable.ListBuffer
 object Spark09_SparkSql_Hive_Project_02stage {
 
   def main(args: Array[String]): Unit = {
-    import org.apache.spark.sql.internal.{
-      BaseSessionStateBuilder,
-      SessionState,
-      SessionStateBuilder
-    }
     System.setProperty("HADOOP_USER_NAME", "wxg")
 
-    val sparkConf: SparkConf =
-      new SparkConf().setMaster("local[*]").setAppName("sparkSQL")
-    val spark: SparkSession =
-      SparkSession.builder().enableHiveSupport().config(sparkConf).getOrCreate()
+    val sparkConf: SparkConf = new SparkConf()
+			.setMaster("local[*]")
+			.setAppName("sparkSQL")
+    val spark: SparkSession = SparkSession.builder().enableHiveSupport().config(sparkConf).getOrCreate()
 
-    spark.sql("use atguigu")
+    spark.sql("use spark_hive")
 
     // 查询基本数据
     spark.sql("""
-					  |  select
-					  |     a.*,
-					  |     p.product_name,
-					  |     c.area,
-					  |     c.city_name
-					  |  from user_visit_action a
-					  |  join product_info p on a.click_product_id = p.product_id
-					  |  join city_info c on a.city_id = c.city_id
-					  |  where a.click_product_id > -1
+			  |  select
+			  |     a.*,
+			  |     p.product_name,
+			  |     c.area,
+			  |     c.city_name
+			  |  from user_visit_action a
+			  |  join product_info p on a.click_product_id = p.product_id
+			  |  join city_info c on a.city_id = c.city_id
+			  |  where a.click_product_id > -1
 				  """.stripMargin).createOrReplaceTempView("t1")
+	  spark.sql("""select * from t1""").show(false)
 
     // 根据区域，商品进行数据聚合
-    spark.udf.register("cityRemark", new CityRemarkUDAF)
-    spark.sql("""
+    spark.udf register("cityRemark2", functions.udaf(new CityRemarkUDAF))
+			spark.sql("""
 					  |  select
 					  |     area,
 					  |     product_name,
 					  |     count(*) as clickCnt,
-					  |     cityRemark(city_name) as city_remark
+					  |     cityRemark2(city_name) as city_remark
 					  |  from t1 group by area, product_name
 				  """.stripMargin).createOrReplaceTempView("t2")
 
@@ -52,20 +48,20 @@ object Spark09_SparkSql_Hive_Project_02stage {
     spark
       .sql(
         """
-						|  select
-						|      *,
-						|      rank() over( partition by area order by clickCnt desc ) as rank
-						|  from t2
-					""".stripMargin
+			|  select
+			|      *,
+			|      rank() over( partition by area order by clickCnt desc ) as rank
+			|  from t2
+		""".stripMargin
       )
       .createOrReplaceTempView("t3")
 
     // 取前3名
     spark.sql("""
-					  | select
-					  |     *
-					  | from t3 where rank <= 3
-				  """.stripMargin).show(false)
+			  | select
+			  |     *
+			  | from t3 where rank <= 3
+		  """.stripMargin).show(false)
 
     spark.close()
   }
@@ -73,7 +69,7 @@ object Spark09_SparkSql_Hive_Project_02stage {
   // 自定义聚合函数：实现城市备注功能
   // 1. 继承Aggregator, 定义泛型
   //    IN ： 城市名称
-  //    BUF : Buffer =>【总点击数量，Map[（city, cnt）, (city, cnt)]】
+  //    BUF : Buffer =>【总点击数量total，Map[(city, cnt), (city, cnt)]】
   //    OUT : 备注信息
   // 2. 重写方法（6）
   class CityRemarkUDAF extends Aggregator[String, Buffer, String] {
@@ -99,7 +95,7 @@ object Spark09_SparkSql_Hive_Project_02stage {
 
       // 两个Map的合并操作
       //            buff1.cityMap = map1.foldLeft(map2) {
-      //                case ( map, (city, cnt) ) => {
+      //                case (map, (city, cnt)) => {
       //                    val newCount = map.getOrElse(city, 0L) + cnt
       //                    map.update(city, newCount)
       //                    map
@@ -115,7 +111,7 @@ object Spark09_SparkSql_Hive_Project_02stage {
     }
     // 将统计的结果生成字符串信息
     override def finish(buff: Buffer): String = {
-      val remarkList: mutable.Seq[String] = ListBuffer[String]()
+      val remarkList: ListBuffer[String] = ListBuffer[String]()
       val totalcnt: Long = buff.total
       val cityMap: mutable.Map[String, Long] = buff.cityMap
       // 降序排列

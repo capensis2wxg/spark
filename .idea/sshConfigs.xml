@@ -2,7 +2,9 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" host="hadoop102" id="19aac56c-f7e2-431a-8ee7-eced1d161358" port="22" nameFormat="DESCRIPTIVE" username="wxg" />
+      <sshConfig authType="PASSWORD" host="hadoop101" id="19aac56c-f7e2-431a-8ee7-eced1d161358" port="31759" nameFormat="DESCRIPTIVE" username="root" />
+      <sshConfig authType="PASSWORD" host="hadoop102" id="c6f125e9-3f8d-4c4c-a99e-d865062e09d3" port="31759" nameFormat="DESCRIPTIVE" username="root" />
+      <sshConfig authType="PASSWORD" host="hadoop103" id="cb35be17-4bcb-4f81-8221-9a3e3ac14c6b" port="31759" nameFormat="DESCRIPTIVE" username="root" />
     </configs>
   </component>
 </project>

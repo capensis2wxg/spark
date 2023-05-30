@@ -10,17 +10,15 @@ object Spark03_SparkSql_Udaf1 {
 
   def main(args: Array[String]): Unit = {
     import org.apache.spark.SparkConf
-    import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+    import org.apache.spark.sql.{DataFrame, SparkSession}
     //	TODO 创建SparkSql的运行环境
-    val sparkConf: SparkConf =
-      new SparkConf().setMaster("local[*]").setAppName("hotCategory")
-    val sparkSql: SparkSession =
-      SparkSession.builder().config(sparkConf).getOrCreate()
+    val sparkConf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("hotCategory")
+    val sparkSql: SparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
     //	读取数据
     val dataFrame: DataFrame = sparkSql.read.json("sparksql/data/user.json")
     dataFrame.createOrReplaceTempView("user")
     //	定义函数
-//    sparkSql.udf.register("prefixName", (name: String) => "name " + name)
+    //  sparkSql.udf.register("prefixName", (name: String) => "name " + name)
     sparkSql.udf.register("ageAvg", new AvgUdf())
     //	调用函数
     sparkSql.sql("select ageAvg(age) from user").show()
@@ -28,7 +26,9 @@ object Spark03_SparkSql_Udaf1 {
 
   /**
     * 自定义聚合函数类：计算年龄的平均值
+    *<p>
     *  1、继承UserDefinedAggregateFunction
+    *<p>
     *  2、重写方法
     */
   class AvgUdf extends UserDefinedAggregateFunction {

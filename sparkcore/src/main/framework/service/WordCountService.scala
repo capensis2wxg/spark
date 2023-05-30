@@ -14,7 +14,7 @@ class WordCountService extends TService {
 
   // 数据分析
   def dataAnalysis(): Array[(String, Int)] = {
-    val lines: RDD[String] = wordCountDao.readFile("datas/word.txt")
+    val lines: RDD[String] = wordCountDao.readFile("sparkcore/data/wordCount1")
     val words: RDD[String] = lines.flatMap((_: String).split(" "))
     val wordToOne: RDD[(String, Int)] = words.map((word: String) => (word, 1))
     val wordToSum: RDD[(String, Int)] =

@@ -10,6 +10,14 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="hadoop103">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/sparkstream" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="hadoop104">
         <serverdata>
           <mappings>

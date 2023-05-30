@@ -31,7 +31,9 @@ object Spark04_SparkSql_Udaf2 {
 
   /**
     * 自定义聚合函数类：计算年龄的平均值
+    * <p>
     * 1、继承org.apache.spark.sql.expressions.UserDefinedAggregateFunction#UserDefinedAggregateFunction()
+    * <p>
     * 2、重写方法
     */
   case class Buffer(var total: Long, var count: Long)

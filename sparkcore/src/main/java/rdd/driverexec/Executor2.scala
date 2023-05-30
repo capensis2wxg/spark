@@ -7,7 +7,7 @@ import java.net.{ServerSocket, Socket}
  */
 object Executor2 {
   def main(args: Array[String]): Unit = {
-    var socket = new ServerSocket(8888)
+    val socket = new ServerSocket(2222)
     println("服务器启动，等待接收数据")
     //	等待客户端的连接
     val client: Socket = socket.accept();
@@ -15,8 +15,7 @@ object Executor2 {
     val objIn = new ObjectInputStream(inputStream)
     val task: Task = objIn.readObject().asInstanceOf[Task]
     val value: List[Int] = task.computer()
-    println(" 8888 端口的结果为：" + value)
-
+    println(" 2222 端口的结果为：" + value)
     objIn.close()
     client.close()
     socket.close()

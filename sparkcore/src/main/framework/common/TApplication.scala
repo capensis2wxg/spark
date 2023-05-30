@@ -15,7 +15,7 @@ trait TApplication {
     try {
       op
     } catch {
-      case ex => println(ex.getMessage)
+      case ex: Throwable => println(ex.getMessage)
     }
 
     // TODO 关闭连接

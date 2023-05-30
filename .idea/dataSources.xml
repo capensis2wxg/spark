@@ -3,9 +3,15 @@
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="Apache Hive" uuid="ba3562cb-4d94-4517-b2d9-2580b4bf626c">
       <driver-ref>hive</driver-ref>
-      <synchronize>true</synchronize>
       <jdbc-driver>org.apache.hive.jdbc.HiveDriver</jdbc-driver>
-      <jdbc-url>jdbc:hive2://hadoop102:10000</jdbc-url>
+      <jdbc-url>jdbc:hive2://hadoop103:10000</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="@hadoop102" uuid="0f2b4a29-028c-4ca8-983a-1e63f799ccb8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://hadoop102:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

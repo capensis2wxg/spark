@@ -10,30 +10,28 @@ object Spark09_SparkSql_Hive_Project_01stage {
     import org.apache.spark.SparkConf
     import org.apache.spark.sql.SparkSession
     System.setProperty("HADOOP_USER_NAME", "wxg")
-    val conf: SparkConf =
-      new SparkConf().setMaster("local[*]").setAppName("SparkSQL")
+    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL")
     //创建 SparkSession 对象
-    val spark: SparkSession =
-      SparkSession.builder().enableHiveSupport().config(conf).getOrCreate()
+    val spark: SparkSession = SparkSession.builder().enableHiveSupport().config(conf).getOrCreate()
     //  连接数据库
     spark.sql("use spark_hive")
     //  准备数据
     spark.sql(
       """
-            |CREATE TABLE if not exists`user_visit_action`( 
-            |  `date` string,  
-            |  `user_id` bigint, 
-            |  `session_id` string, 
-            |  `page_id` bigint, 
-            |  `action_time` string, 
-            |  `search_keyword` string, 
-            |  `click_category_id` bigint, 
-            |  `click_product_id` bigint, 
-            |  `order_category_ids` string, 
-            |  `order_product_ids` string, 
-            |  `pay_category_ids` string, 
-            |  `pay_product_ids` string, 
-            |  `city_id` bigint) 
+            |CREATE TABLE if not exists`user_visit_action`(
+            |  `date` string,
+            |  `user_id` bigint,
+            |  `session_id` string,
+            |  `page_id` bigint,
+            |  `action_time` string,
+            |  `search_keyword` string,
+            |  `click_category_id` bigint,
+            |  `click_product_id` bigint,
+            |  `order_category_ids` string,
+            |  `order_product_ids` string,
+            |  `pay_category_ids` string,
+            |  `pay_product_ids` string,
+            |  `city_id` bigint)
             |row format delimited fields terminated by '\t'
       """.stripMargin
     )
@@ -45,10 +43,10 @@ object Spark09_SparkSql_Hive_Project_01stage {
 
     spark.sql(
       """
-          |CREATE TABLE if not exists`product_info`( 
-          |  `product_id` bigint, 
-          |  `product_name` string, 
-          |  `extend_info` string) 
+          |CREATE TABLE if not exists`product_info`(
+          |  `product_id` bigint,
+          |  `product_name` string,
+          |  `extend_info` string)
           |row format delimited fields terminated by '\t'
       """.stripMargin
     )
@@ -60,10 +58,10 @@ object Spark09_SparkSql_Hive_Project_01stage {
 
     spark.sql(
       """
-          |CREATE TABLE if not exists`city_info`( 
-          |  `city_id` bigint, 
-          |  `city_name` string, 
-          |  `area` string) 
+          |CREATE TABLE if not exists`city_info`(
+          |  `city_id` bigint,
+          |  `city_name` string,
+          |  `area` string)
           |row format delimited fields terminated by '\t'
       """.stripMargin
     )

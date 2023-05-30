@@ -6,14 +6,21 @@
         <fileTransfer mountedRoot="E:\" accessType="MOUNT" port="0" />
       </webServer>
       <webServer id="28c1a95f-69f1-461d-ad10-43b149c7952c" name="hadoop104" url="http://localhost">
-        <fileTransfer accessType="SFTP" host="hadoop102" port="22" sshConfigId="19aac56c-f7e2-431a-8ee7-eced1d161358" sshConfig="wxg@hadoop102:22 password">
+        <fileTransfer accessType="SFTP" host="hadoop103" port="31759" sshConfigId="cb35be17-4bcb-4f81-8221-9a3e3ac14c6b" sshConfig="root@hadoop103:31759 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>
       <webServer id="a6dd7de0-b43b-44d8-bfa5-a46eb2b9dcac" name="hadoop102" url="http://hadoop102:20">
-        <fileTransfer accessType="SFTP" host="hadoop102" port="22" sshConfigId="19aac56c-f7e2-431a-8ee7-eced1d161358" sshConfig="wxg@hadoop102:22 password">
+        <fileTransfer accessType="SFTP" host="hadoop101" port="31759" sshConfigId="19aac56c-f7e2-431a-8ee7-eced1d161358" sshConfig="root@hadoop101:31759 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="afd38cce-9069-4493-901c-9780f4275650" name="hadoop103" url="http://hadoop103:22">
+        <fileTransfer accessType="SFTP" host="hadoop102" port="31759" sshConfigId="c6f125e9-3f8d-4c4c-a99e-d865062e09d3" sshConfig="root@hadoop102:31759 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
@@ -26,6 +33,7 @@
         <servers>
           <name value="hadoop104" />
           <name value="hadoop102" />
+          <name value="hadoop103" />
         </servers>
       </group>
     </groups>
